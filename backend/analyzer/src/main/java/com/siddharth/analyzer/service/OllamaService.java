@@ -7,6 +7,8 @@ import org.springframework.http.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Service
 public class OllamaService {
 
@@ -30,6 +32,30 @@ public class OllamaService {
         ResponseEntity<Map> response =
                 restTemplate.postForEntity(OLLAMA_URL, request, Map.class);
 
-        return response.getBody().get("response").toString();
+        // 🔥 Step 1: Get raw response
+        String rawResponse = response.getBody().get("response").toString();
+
+        // 🔥 Step 2: Extract JSON part
+        int startIndex = rawResponse.indexOf("{");
+        int endIndex = rawResponse.lastIndexOf("}");
+
+        if (startIndex != -1 && endIndex != -1) {
+
+            String cleanJson = rawResponse.substring(startIndex, endIndex + 1);
+
+            try {
+                // 🔥 Step 3: Validate JSON
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.readTree(cleanJson);
+
+                return cleanJson;
+
+            } catch (Exception e) {
+                System.out.println("Invalid JSON from LLM");
+                return "{}";
+            }
+        }
+
+        return "{}"; // fallback if no JSON found
     }
 }
