@@ -1,15 +1,25 @@
 package com.siddharth.analyzer.controller;
 
+import com.siddharth.analyzer.service.OllamaService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class AnalyzeController {
 
+    private final OllamaService ollamaService;
+
+    public AnalyzeController(OllamaService ollamaService) {
+        this.ollamaService = ollamaService;
+    }
+
     @PostMapping("/analyze")
     public String analyzeTranscript(@RequestBody String transcript) {
-        System.out.println("Received transcript: " + transcript);
 
-        return "Transcript received successfully";
+        String prompt = "Analyze this transcript: " + transcript;
+
+        String result = ollamaService.callOllama(prompt);
+
+        return result;
     }
 }
