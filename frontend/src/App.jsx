@@ -5,7 +5,6 @@ function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // 🔥 Add spinner animation once
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
@@ -63,7 +62,6 @@ function App() {
     setLoading(false);
   };
 
-  // 🎨 Card style
   const cardStyle = {
     backgroundColor: "#1f2937",
     padding: "16px",
@@ -73,7 +71,6 @@ function App() {
     boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
   };
 
-  // 🔄 Loader style
   const loaderStyle = {
     width: "40px",
     height: "40px",
