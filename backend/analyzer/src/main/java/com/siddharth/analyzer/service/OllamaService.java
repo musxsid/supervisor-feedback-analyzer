@@ -32,10 +32,8 @@ public class OllamaService {
         ResponseEntity<Map> response =
                 restTemplate.postForEntity(OLLAMA_URL, request, Map.class);
 
-        // 🔥 Step 1: Get raw response
         String rawResponse = response.getBody().get("response").toString();
 
-        // 🔥 Step 2: Extract JSON part
         int startIndex = rawResponse.indexOf("{");
         int endIndex = rawResponse.lastIndexOf("}");
 
@@ -44,7 +42,6 @@ public class OllamaService {
             String cleanJson = rawResponse.substring(startIndex, endIndex + 1);
 
             try {
-                // 🔥 Step 3: Validate JSON
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.readTree(cleanJson);
 
@@ -56,6 +53,6 @@ public class OllamaService {
             }
         }
 
-        return "{}"; // fallback if no JSON found
+        return "{}"; 
     }
 }
