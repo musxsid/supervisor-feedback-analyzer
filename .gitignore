@@ -1,0 +1,4 @@
+/backend/analyzer/data/
+/backend/analyzer/target/
+/frontend/node_modules/
+/frontend/dist/
